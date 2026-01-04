@@ -15,6 +15,11 @@ import {
   CardContent,
   Alert,
   Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
 import { Quiz, ArrowBack, ArrowForward } from '@mui/icons-material';
 import { quizAPI } from '../services/api';
@@ -27,6 +32,7 @@ const QuizTaking = () => {
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState({ open: false, unansweredCount: 0 });
 
   useEffect(() => {
     loadQuiz();
@@ -69,11 +75,14 @@ const QuizTaking = () => {
     // Check if all questions are answered
     const unanswered = answers.filter(answer => answer === null).length;
     if (unanswered > 0) {
-      if (!confirm(`You have ${unanswered} unanswered question(s). Are you sure you want to submit?`)) {
-        return;
-      }
+      setConfirmDialog({ open: true, unansweredCount: unanswered });
+      return;
     }
 
+    await submitQuiz();
+  };
+
+  const submitQuiz = async () => {
     setSubmitting(true);
     try {
       const response = await quizAPI.submitQuiz(quizId, answers);
@@ -84,6 +93,15 @@ const QuizTaking = () => {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleConfirmSubmit = () => {
+    setConfirmDialog({ open: false, unansweredCount: 0 });
+    submitQuiz();
+  };
+
+  const handleCancelSubmit = () => {
+    setConfirmDialog({ open: false, unansweredCount: 0 });
   };
 
   const getDifficultyColor = (difficulty) => {
@@ -271,10 +289,37 @@ const QuizTaking = () => {
           </Box>
         </Alert>
       )}
+
+      {/* Confirmation Dialog */}
+      <Dialog
+        open={confirmDialog.open}
+        onClose={handleCancelSubmit}
+        aria-labelledby="confirm-submit-title"
+        aria-describedby="confirm-submit-description"
+      >
+        <DialogTitle id="confirm-submit-title">
+          Unanswered Questions
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="confirm-submit-description">
+            You have {confirmDialog.unansweredCount} unanswered question(s).
+            Are you sure you want to submit the quiz? Unanswered questions will be marked as incorrect.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelSubmit} color="inherit">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmSubmit} variant="contained" autoFocus>
+            Submit Anyway
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };
 
 export default QuizTaking;
+
 
 

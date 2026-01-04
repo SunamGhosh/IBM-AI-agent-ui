@@ -166,7 +166,7 @@ const QuizGenerator = () => {
       {/* Analytics Overview */}
       {analytics && (
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} md={3}>
+          <Grid xs={12} md={3}>
             <Paper sx={{ p: 2, textAlign: 'center' }}>
               <Typography variant="h4" color="primary">
                 {analytics.totalQuizzes}
@@ -176,7 +176,7 @@ const QuizGenerator = () => {
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid xs={12} md={3}>
             <Paper sx={{ p: 2, textAlign: 'center' }}>
               <Typography variant="h4" color="secondary">
                 {analytics.averageScore}%
@@ -186,7 +186,7 @@ const QuizGenerator = () => {
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid xs={12} md={3}>
             <Paper sx={{ p: 2, textAlign: 'center' }}>
               <Typography variant="h4" color="success.main">
                 {analytics.recentPerformance.length}
@@ -196,7 +196,7 @@ const QuizGenerator = () => {
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid xs={12} md={3}>
             <Paper sx={{ p: 2, textAlign: 'center' }}>
               <Analytics sx={{ fontSize: 40, color: 'info.main' }} />
               <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
@@ -215,7 +215,7 @@ const QuizGenerator = () => {
           </Typography>
           <Grid container spacing={2}>
             {analytics.recentPerformance.map((performance, index) => (
-              <Grid item xs={12} md={4} key={index}>
+              <Grid xs={12} md={4} key={index}>
                 <Card>
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
@@ -263,7 +263,7 @@ const QuizGenerator = () => {
         ) : (
           <Grid container spacing={3}>
             {quizzes.map((quiz) => (
-              <Grid item xs={12} md={6} lg={4} key={quiz._id}>
+              <Grid xs={12} md={6} lg={4} key={quiz._id}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
@@ -446,5 +446,6 @@ const QuizGenerator = () => {
 };
 
 export default QuizGenerator;
+
 
 
